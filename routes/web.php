@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/info', function () {
+    return [
+        'data'=>'i4gic'
+    ];
+});
+Route::post('/product/add', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'name'=>'required',
+        'price'=>'required'
+    ]);
+    return ['status'=>'SUCCESS'];
+});
