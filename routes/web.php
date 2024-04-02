@@ -26,4 +26,5 @@ Route::post('/product/add', function (Illuminate\Http\Request $request) {
         'name'=>'required',
         'price'=>'required'
     ]);
-    return ['status'
+    return ['status'=>'SUCCESS'];
+});
