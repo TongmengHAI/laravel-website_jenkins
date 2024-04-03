@@ -32,7 +32,7 @@ class InfoTest extends TestCase
     }
     public function test_product_add_missing_price(): void
     {
-        // $response = $this->postJson('/product/add', [
+        $response = $this->postJson('/product/add', [
             'name'=>'Grape',
             ]
         );
