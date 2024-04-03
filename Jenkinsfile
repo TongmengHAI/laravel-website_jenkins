@@ -1,6 +1,6 @@
 pipeline {
     agent any // windows agent, Jenkins-Laravel (other machine)
-    
+
     stages {
         stage('Fetch from GitHub') { // build steps
             steps {
@@ -22,5 +22,6 @@ pipeline {
                 sh 'php artisan test'
             }
         }
+        
     }
 }
