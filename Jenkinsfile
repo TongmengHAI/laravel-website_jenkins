@@ -1,27 +1,59 @@
 pipeline {
-    agent any // windows agent, Jenkins-Laravel (other machine)
+    agent any
 
     stages {
-        stage('Fetch from GitHub') { // build steps
+        stage('Clone') {
             steps {
-                echo 'Fetching from GitHub'
-                git branch: 'main', url:'https://github.com/taltongsreng/i4a-website.git'
+                git branch: 'main', url: 'https://github.com/TongmengHAI/laravel-website_jenkins.git'
+            }
+
+        }
+        stage('Composer'){
+            steps{
+                sh 'composer install'
             }
         }
-        stage('Build using Tools') {
-            steps {
-                echo 'Compiling code...'
+        stage('Copy .env'){
+            steps{
                 sh 'cp .env.example .env'
-                sh 'composer install && php artisan key:generate && npm install && npm run build'
             }
         }
-        stage('Test the app') {
-            steps {
-                echo 'Testing unit tests...'
-                echo 'Testing features...'
+        stage('App key'){
+            steps{
+                sh 'php artisan key:generate'
+            }
+        }
+        stage('npm'){
+            steps{
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+        stage('test'){
+            steps{
                 sh 'php artisan test'
             }
+
+            post {
+                success {
+                    mail(
+                        subject : "Pipeline Successful",
+                        body    : "The Jenkins pipeline has succuess",
+                        to      : "tongmeng016@gmail.com"
+
+                    )
+                }
+                failure {
+                    mail(
+                        subject : "Pipeline failed",
+                        body    : "The Jenkins pipeline has failed",
+                        to      : "tongmeng016@gmail.com"
+                    )
+                }
+
+            }
         }
-        
     }
+
+
 }
